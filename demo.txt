@@ -1,2 +1,2 @@
 fwite function used to create a file and 
-    write some text inside created fileIt is demo file. It is demo file. It is demo file. It is demo file. It is demo file. It is demo file. It is demo file.This is read write mode
+    write some text inside created file <br>
