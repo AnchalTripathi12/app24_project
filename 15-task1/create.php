@@ -1,4 +1,8 @@
 <?php
+    //   session_start();
+    //    if(!isset($_SESSION['user'])){
+    //        header('Location:login.php');
+    //    }
     $con=mysqli_connect('localhost','root','','crud_data');
     if($_SERVER['REQUEST_METHOD']=='POST'){
         if(empty($_POST['username'])){
@@ -32,7 +36,7 @@
             $country=$_POST['country'];
             $subject=implode(',',$_POST['subject']);
             $dsc=$_POST['description'];
-        $sql="insert into use4(username,dob,gender,country,subject,description) 
+        $sql="insert into curdsl1(username,dob,gender,country,subject,description) 
         values('$username','$dob','$gender','$country','$subject','$dsc')";
         if(mysqli_query($con,$sql)){
             echo "<script>

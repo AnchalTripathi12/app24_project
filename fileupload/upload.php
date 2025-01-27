@@ -1,14 +1,15 @@
 <?php
   $con=mysqli_connect('localhost','root','','crud_data');
     if($_SERVER['REQUEST_METHOD']=='POST'){
+  
         $id=$_POST['id'];
         $name=$_POST['name'];
-        if(empty($_FILES['image']['name'])){
+        if(empty($_FILES['file']['name'])){
             $filename=$_POST['oldimage'];
 
         }else{
-            $filename=time().$_FILES['image']['name'];
-            $tmpname=$_FILES['image']['tmp_name'];
+            $filename=time().$_FILES['file']['name'];
+            $tmpname=$_FILES['file']['tmp_name'];
             move_uploaded_file($tmpname,"../upload/$filename");
 
         }

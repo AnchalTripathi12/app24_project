@@ -18,8 +18,8 @@ if($count==0){
 }else{
     echo "Not A prime";
 }
-      }else{
-        echo "Not A prime";
+}else{
+    echo "Not A prime";
       }
     }
 }

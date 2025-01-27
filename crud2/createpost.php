@@ -1,6 +1,4 @@
 <?php
-//   print_r($_POST);
-
 $anch=mysqli_connect('localhost','root','','crud_data');
 if($_SERVER['REQUEST_METHOD']=='POST'){
     if(empty($_POST['fname'])){
@@ -34,7 +32,6 @@ else{
     $email=$_POST['email'];
 }
 $sql="Insert into users2(fname,lname,phone,email) values('$fname','$lname','$phone','$email')"; 
-
 if(mysqli_query($anch,$sql)){
     echo "<script>
         alert('Data inserted Successfully');

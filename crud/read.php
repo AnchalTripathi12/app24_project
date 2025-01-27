@@ -151,7 +151,8 @@
                             <?= $record['id']?>
                         </div>
                     </td>               
-                    <td class="admin-batch-tableData"  colspan="3"><?= $record['fname']?>
+                    <td class="admin-batch-tableData"  colspan="3">
+                        <?= $record['fname']?>
                     
                     </td>
                     <td class="admin-batch-tableData"  colspan="3">

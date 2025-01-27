@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -47,23 +46,18 @@
     color: #389af0;
     transition: all ease-in-out 0.3s;
 }
-
-
-
 .admin-batch-tableOuter {
     width: 98%;
     padding: 20px;
     border-collapse: collapse;
     margin: auto;
 }
-
 .admin-batch-tableHead {
     border: 1px solid rgb(83, 82, 82);
     padding: 10px;
     background: #153450;
     color: #fff;
 }
-
 .admin-batch-tableData {
     border: 1px solid rgb(83, 82, 82);
     padding: 30px;

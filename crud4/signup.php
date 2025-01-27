@@ -1,46 +1,56 @@
 <?php
+    session_start();
     $con=mysqli_connect('localhost','root','','crud_data');
     if($_SERVER['REQUEST_METHOD']=='POST'){
-        if(empty($_POST['username'])){
+        if(empty($_POST['name'])){
             echo "<script>
-                alert('Username field required');
+                alert('Name is requird');
             </script>";
-        }elseif(empty($_POST['dob'])){
+        }elseif(empty($_POST['email'])){
             echo "<script>
-                alert('Date of birth field required');
+                alert('Email is requird');
             </script>";
-        }elseif(empty($_POST['gender'])){
+        }elseif(empty($_POST['password'])){
             echo "<script>
-                alert('Gender field required');
+                alert('Password is requird');
             </script>";
-        }elseif(empty($_POST['country'])){
+        }elseif(empty($_POST['c_password'])){
             echo "<script>
-                alert('Country field required');
-            </script>";
-        }elseif(empty($_POST['subject'])){
-            echo "<script>
-                alert('Subject field required');
-            </script>";
-        }elseif(empty($_POST['description'])){
-            echo "<script>
-                alert('description field required');
+                alert('Confirm Password is requird');
             </script>";
         }else{
-            $username=$_POST['username'];
-            $dob=$_POST['dob'];
-            $gender=$_POST['gender'];
-            $country=$_POST['country'];
-            $subject=implode(',',$_POST['subject']);
-            $dsc=$_POST['description'];
-        $sql="insert into use4(username,dob,gender,country,subject,description) 
-        values('$username','$dob','$gender','$country','$subject','$dsc')";
-        if(mysqli_query($con,$sql)){
-            echo "<script>
-                alert('Data inserted successfully');
-                window.location.href='read.php';
-            </script>";
+            
+            $name=sanitize($_POST['name']);
+            $email=sanitize($_POST['email']);
+            $password=sanitize($_POST['password']);
+            $c_password=sanitize($_POST['c_password']);
+            if(!empty($email)){
+                $sql="select * from signup where email='$email'";
+                $data=mysqli_query($con,$sql);
+                if(mysqli_num_rows($data)>0){
+                    echo "<script>
+                        alert('Your given email already exist');
+                    </script>";
+                }elseif($password!=$c_password){
+                    echo "<script>
+                        alert('Password and Confirm Password not matched');
+                    </script>";
+                }else{
+                    $sql="insert into signup(name,email,password) values('$name','$email','$password')";
+                    if(mysqli_query($con,$sql)){
+                        echo "<script>
+                             alert('Account created Successfully');
+                            window.location.href='login.php';
+                            </script>";
+                    }
+                }
+            }
         }
-        }
+    }
+    function sanitize($data){
+        $sanitizedata=trim($data);
+        $sanitizedata=htmlspecialchars($sanitizedata);
+        return $sanitizedata;
     }
 ?>
 <!DOCTYPE html>
@@ -189,47 +199,29 @@ body{
 <body>
    <div class="main-container">
             <form action="" method="post">
-                <h2 class="reg-heading">ALL TYPE INPUT FIELD</h2>
+                <h2 class="reg-heading">Signup </h2>
                 <div class="input-row">
                     <div class="input-box">
-                        <label for="name" class="reg-label">UserName:</label> 
-                        <input type="text" name="username" class="reg-input">
+                        <label for="name" class="reg-label">Name:</label> 
+                        <input type="text" name="name" class="reg-input">
                     </div>
                     <div class="input-box">    
-                        <label for="name" class="reg-label">D.O.B:</label>
-                        <input type="date" name="dob" class="reg-input">    
+                        <label for="name" class="reg-label">email:</label>
+                        <input type="text" name="email" class="reg-input">    
                     </div>
                 </div>    
                 <div class="input-row">
-                    <div class="input-box" style="display:inline">
-                        <label for="" class="reg-label" >Gender</label>
-                        <input type="radio" name="gender" id="male" value="male"  class="reg-input">Male
-                        <input type="radio" name="gender" value="female"  class="reg-input">Female
-                    </div>
-                <div class="input-box">
-                        <label for="name" class="reg-label">country:</label>
-                        <select name="country" id="" class="reg-input">
-                            <option value="">--select country--</option>
-                            <option value="india">India</option>
-                            <option value="pakistan">Pakistan</option>
-                            <option value="china">china</option>
- </select> 
-                    </div>
-                </div>
-              <div class="input-row">
-              <div class="input-box" style="display:inline"> 
-                        <label for="name" class="reg-label">Subject</label>
-                        <input type="checkbox" value="hindi"  name="subject[]" class="reg-input">Hindi
-                        <input type="checkbox" value="physics"  name="subject[]" class="reg-input">Physics
-                        <input type="checkbox" value="chemistry"  name="subject[]" class="reg-input">Chemistry
-                        <input type="checkbox" value="sanskrit"  name="subject[]" class="reg-input">Sanskrit
-
+                    <div class="input-box">
+                        <label for="name" class="reg-label">Password:</label> 
+                        <input type="text" name="password" class="reg-input">
                     </div>
                     <div class="input-box">    
-                        <label for="name" class="reg-label">Description</label>
-                        <textarea name="description" id="" class="reg-input"></textarea>   
+                        <label for="name" class="reg-label">Confirm Password:</label>
+                        <input type="text" name="c_password" class="reg-input">    
                     </div>
-              </div>
+                </div>  
+      
+              
                     <div class="button">
                      <button type="submit" class="reg-button">CREATE ACCOUNT</button>
                     </div> 

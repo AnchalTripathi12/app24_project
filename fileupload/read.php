@@ -7,7 +7,6 @@
 </head>
 <body>
     <table border=1>
-
         <tr>
             <th>ID</th>
             <th>Name</th>
@@ -19,9 +18,7 @@
             $sql="Select * from fileupload";
             $result=mysqli_query($con,$sql);
             if(mysqli_num_rows($result)>0){
-                while($row=mysqli_fetch_assoc($result)){
-
-            
+                while($row=mysqli_fetch_assoc($result)){       
         ?>
         <tr>
             <td><?= $row['id'] ?></td>

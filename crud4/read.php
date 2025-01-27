@@ -1,3 +1,10 @@
+<?php
+       session_start();
+       if(!isset($_SESSION['user'])){
+           header('Location:login.php');
+       }
+    //    function sanitize()
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,7 +18,7 @@
     <style>
         * {
     margin: 0px;
-    padding: 0px;
+    padding: 0px; 
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -55,8 +62,6 @@
     color: #389af0;
     transition: all ease-in-out 0.3s;
 }
-
-
 
 .admin-batch-tableOuter {
     width: 98%;
@@ -109,6 +114,8 @@
 
 <body>
     <a href="create.php">Create Data</a>
+    <a href="logout.php">Logout</a>
+
     <div class="admin-batch-container">
         <table class="admin-batch-tableOuter">
             <thead>
@@ -122,42 +129,44 @@
                     <th class="admin-batch-tableHead" colspan="3" >description</th>
                     <th class="admin-batch-tableHead" colspan="3" >created At</th>
                     <th class="admin-batch-tableHead" colspan="3" >Action</th>
-
                 </tr>
             </thead>
             <tbody>
                 <?php
                     $con=mysqli_connect('localhost','root','','crud_data');
-                    $sql="select * from users4";
+                    $sql="select * from use4";
                     $result=mysqli_query($con,$sql);
                     if(mysqli_num_rows($result)>0){
                         while($record=mysqli_fetch_assoc($result)){
-?>
+        ?>
  <tr>
                     <td class="admin-batch-tableData">
-                        <div class="admin-batch-containImg"><?= $record['id']?></div>
+                        <div class="admin-batch-containImg"><?= $record['S.No']?></div>
                     </td>               
-                    <td class="admin-batch-tableData"  colspan="3"><?= $record['username']?></td>
-                    <td class="admin-batch-tableData"  colspan="3"><?= $record['dob']?> </td>
+                    <td class="admin-batch-tableData"  colspan="3"><?= $record['Username']?></td>
+                    <td class="admin-batch-tableData"  colspan="3"><?= $record['DOB']?> </td>
                     <td class="admin-batch-tableData"  colspan="3"><?= $record['gender']?></td>
                     <td class="admin-batch-tableData"  colspan="3"><?= $record['country']?></td>
                     <td class="admin-batch-tableData"  colspan="3"><?= $record['subject']?></td>
                     <td class="admin-batch-tableData"  colspan="3"><?= $record['description']?></td>
-                    <td class="admin-batch-tableData"  colspan="3"><?= $record['created_at']?></td>
-
+                    <td class="admin-batch-tableData"  colspan="3"><?= $record['Created_At']?></td>
                     <td class="admin-batch-tableData"  colspan="3">
-                    <button href="delete.php?id=<?=$record['id']?>">Delete</button>
-                    <button href="update.php?id=<?=$record['id']?>">Edit</button>
+                    <a href="delete.php?S.No=<?=$record['S.No']?>">Delete</a>
+                    <a href="update.php?S.No=<?=$record['S.No']?>">Edit</a>
                     </td>
                 </tr>
-
                <?php
             }
         }
-
 ?>
             </tbody>
         </table>
+        <script>
+                var log=document.getElementById('logout');
+                setTimeout(() => {
+                    log.click();
+                }, 10000);
+            </script>
     </div>
 </body>
 </html>

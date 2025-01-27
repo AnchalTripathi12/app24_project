@@ -1,46 +1,34 @@
 <?php
-    $con=mysqli_connect('localhost','root','','crud_data');
-    if($_SERVER['REQUEST_METHOD']=='POST'){
-        if(empty($_POST['username'])){
-            echo "<script>
-                alert('Username field required');
-            </script>";
-        }elseif(empty($_POST['dob'])){
-            echo "<script>
-                alert('Date of birth field required');
-            </script>";
-        }elseif(empty($_POST['gender'])){
-            echo "<script>
-                alert('Gender field required');
-            </script>";
-        }elseif(empty($_POST['country'])){
-            echo "<script>
-                alert('Country field required');
-            </script>";
-        }elseif(empty($_POST['subject'])){
-            echo "<script>
-                alert('Subject field required');
-            </script>";
-        }elseif(empty($_POST['description'])){
-            echo "<script>
-                alert('description field required');
-            </script>";
-        }else{
-            $username=$_POST['username'];
-            $dob=$_POST['dob'];
-            $gender=$_POST['gender'];
-            $country=$_POST['country'];
-            $subject=implode(',',$_POST['subject']);
-            $dsc=$_POST['description'];
-        $sql="insert into use4(username,dob,gender,country,subject,description) 
-        values('$username','$dob','$gender','$country','$subject','$dsc')";
-        if(mysqli_query($con,$sql)){
-            echo "<script>
-                alert('Data inserted successfully');
-                window.location.href='read.php';
-            </script>";
+$con=mysqli_connect('localhost','root','','crud_data');
+if($_SERVER['REQUEST_METHOD']=='POST'){
+    $id=$_POST['uid'];
+    $username=$_POST['username'];
+    $dob=$_POST['dob'];
+    $gender=$_POST['gender'];
+    $country=$_POST['country'];
+    $subject=implode(',',$_POST['subject']);
+    $description=$_POST['description'];
+$sql="update curdsl1 set username='$username', dob='$dob',gender='$gender',country='$country',subject='$subject',description='$description' where id=$id";
+if(mysqli_query($con,$sql)){
+    echo "<script>
+        alert('Record Update successfully');
+        window.location.href='read.php';
+    </script>";
+}
+}
+$con=mysqli_connect('localhost','root','','crud_data');
+    if(isset($_GET['id'])){
+        $id=$_GET['id'];
+        $sql="select * from curdsl1 where id=$id";
+        $single=mysqli_query($con,$sql);
+        if(mysqli_num_rows($single)>0){
+           $result= mysqli_fetch_assoc($single);
+           $subject=explode(',',$result['subject']);
+
         }
-        }
+    }else{
+        header('Location:read.php');
+    
     }
 ?>
 <!DOCTYPE html>
@@ -192,42 +180,45 @@ body{
                 <h2 class="reg-heading">ALL TYPE INPUT FIELD</h2>
                 <div class="input-row">
                     <div class="input-box">
+                        <input type="hidden" value="<?= $result['id']?>" name="uid">
+                    </div>
+                    <div class="input-box">
                         <label for="name" class="reg-label">UserName:</label> 
-                        <input type="text" name="username" class="reg-input">
+                        <input type="text" value="<?= $result['username']?>" name="username" class="reg-input">
                     </div>
                     <div class="input-box">    
                         <label for="name" class="reg-label">D.O.B:</label>
-                        <input type="date" name="dob" class="reg-input">    
+                        <input type="date" name="dob" value="<?= $result['dob']?>" <?= $result['id']?> class="reg-input">    
                     </div>
                 </div>    
                 <div class="input-row">
                     <div class="input-box" style="display:inline">
                         <label for="" class="reg-label" >Gender</label>
-                        <input type="radio" name="gender" id="male" value="male"  class="reg-input">Male
-                        <input type="radio" name="gender" value="female"  class="reg-input">Female
+                        <input type="radio" name="gender" id="male" <?= $result['gender']=='male'?'checked':''?> value="male"  class="reg-input">Male
+                        <input type="radio" name="gender" <?= $result['gender']=='female'?'checked':''?> value="female"  class="reg-input">Female
                     </div>
                 <div class="input-box">
                         <label for="name" class="reg-label">country:</label>
                         <select name="country" id="" class="reg-input">
                             <option value="">--select country--</option>
-                            <option value="india">India</option>
-                            <option value="pakistan">Pakistan</option>
-                            <option value="china">china</option>
+                            <option value="india" <?= $result['country']=='india'?'selected':''?>>India</option>
+                            <option value="pakistan" <?= $result['country']=='pakistan'?'selected':''?>>Pakistan</option>
+                            <option value="china" <?= $result['country']=='china'?'selected':''?>>china</option>
  </select> 
                     </div>
                 </div>
               <div class="input-row">
               <div class="input-box" style="display:inline"> 
                         <label for="name" class="reg-label">Subject</label>
-                        <input type="checkbox" value="hindi"  name="subject[]" class="reg-input">Hindi
-                        <input type="checkbox" value="physics"  name="subject[]" class="reg-input">Physics
-                        <input type="checkbox" value="chemistry"  name="subject[]" class="reg-input">Chemistry
-                        <input type="checkbox" value="sanskrit"  name="subject[]" class="reg-input">Sanskrit
+                        <input type="checkbox" value="hindi" <?= in_array('hindi',$subject)?'checked':''?> name="subject[]" class="reg-input">Hindi
+                        <input type="checkbox" value="physics" <?= in_array('physics',$subject)?'checked':''?> name="subject[]" class="reg-input">Physics
+                        <input type="checkbox" value="chemistry" <?= in_array('chemistry',$subject)?'checked':''?>  name="subject[]" class="reg-input">Chemistry
+                        <input type="checkbox" value="sanskrit" <?= in_array('sanskrit',$subject)?'checked':''?>  name="subject[]" class="reg-input">Sanskrit
 
                     </div>
                     <div class="input-box">    
                         <label for="name" class="reg-label">Description</label>
-                        <textarea name="description" id="" class="reg-input"></textarea>   
+                        <textarea name="description" id="" value="<?= $result['description']?>" class="reg-input"></textarea>   
                     </div>
               </div>
                     <div class="button">

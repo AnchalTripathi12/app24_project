@@ -1,4 +1,8 @@
 <?php
+ session_start();
+ if(!isset($_SESSION['user'])){
+     header('Location:login.php');
+ }
 $con=mysqli_connect('localhost','root','','crud_data');
 if($_SERVER['REQUEST_METHOD']=='POST'){
     $id=$_POST['uid'];
@@ -8,7 +12,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     $country=$_POST['country'];
     $subject=implode(',',$_POST['subject']);
     $description=$_POST['description'];
-$sql="update users4 set username='$username', dob='$dob',gender='$gender',country='$country',subject='$subject',description='$description' where id=$id";
+$sql="update use4 set username='$username', dob='$dob',gender='$gender',country='$country',subject='$subject',description='$description' where S.No=$id";
 if(mysqli_query($con,$sql)){
     echo "<script>
         alert('Record Update successfully');
@@ -18,7 +22,7 @@ if(mysqli_query($con,$sql)){
 }
     if(isset($_GET['id'])){
         $id=$_GET['id'];
-        $sql="select * from users4 where id=$id";
+        $sql="select * from use4 where S.No=$id";
         $single=mysqli_query($con,$sql);
         if(mysqli_num_rows($single)>0){
             $result=mysqli_fetch_assoc($single);
@@ -176,7 +180,7 @@ if(mysqli_query($con,$sql)){
             <form action="" method="post">
                 <h2 class="reg-heading">ALL TYPE INPUT FIELD</h2>
                 <div class="input-row">
-                    <input type="hidden" value="<?= $result['id']?>" name="uid">
+                    <input type="hidden" value="<?= $result['S.No']?>" name="uid">
                     <div class="input-box">
                         <label for="name" class="reg-label">UserName:</label> 
                         <input type="text" value="<?= $result['username']?>" name="username" class="reg-input">
