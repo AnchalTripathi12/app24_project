@@ -3,7 +3,7 @@
     array_push($arr,[6,7,5]);
     echo "<pre>";
     print_r($arr)."<br>";
-
+0
     $arr1=[
         [1,2,3,5]
     ];
